@@ -17,6 +17,7 @@ import {
   Upload,
 } from "lucide-react";
 import Link from "next/link";
+import { Card, CardContent, CardHeader, CardTitle } from "./card";
 
 const salesData = [
   {
@@ -70,36 +71,37 @@ const quickActions = [
 
 export function DashboardSummery() {
   return (
-    <div className="w-full container mx-auto p-4 sm:p-6 lg:p-8">
+    <div className="w-full my-10">
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-        <div className="rounded-xl bg-white p-6 shadow-[0px_4px_20px_rgba(235,238,255,0.8)] lg:col-span-2">
-          <h2 className="text-lg font-semibold text-slate-800">
-            Sales Summary
-          </h2>
-          <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
-            {salesData.map((item, index) => (
-              <div
-                key={index}
-                className="flex items-center space-x-4 rounded-xl bg-white p-5 shadow-[0px_4px_15px_rgba(240,242,255,0.9)]"
-              >
-                <div
-                  className={`flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full ${item.iconBg}`}
-                >
-                  {item.icon}
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-slate-900">
-                    {item.amount}
-                  </p>
-                  <p className="text-sm text-slate-500">{item.title}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <CardTitle>Sales Summary</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              {salesData.map((item, index) => (
+                <Card key={index}>
+                  <CardContent className="flex items-center gap-3">
+                    <div
+                      className={`flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full ${item.iconBg}`}
+                    >
+                      {item.icon}
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-slate-900">
+                        {item.amount}
+                      </p>
+                      <p className="text-sm text-slate-500">{item.title}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
 
-        <div className="space-y-8">
-          <div className="flex items-center justify-between border-b border-slate-200 pb-6">
+        <Card className="space-y-8">
+          <CardHeader className="flex items-center justify-between border-b border-slate-200 pb-6">
             <div className="flex items-center gap-4">
               <Avatar className="h-12 w-12">
                 <AvatarImage
@@ -125,9 +127,9 @@ export function DashboardSummery() {
                 <DropdownMenuItem>Logout</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          </div>
+          </CardHeader>
 
-          <div>
+          <CardContent>
             <h2 className="text-lg font-semibold text-slate-800">
               Quick Actions
             </h2>
@@ -136,7 +138,7 @@ export function DashboardSummery() {
                 <Button
                   key={index}
                   variant="ghost"
-                  className="h-auto justify-start p-0 font-medium text-slate-600 hover:bg-transparent hover:text-slate-900"
+                  className="h-auto justify-start p-0 font-medium text-slate-600 hover:bg-transparent hover:text-primary"
                 >
                   <Link href={action.href} className="flex items-center gap-2">
                     {action.icon}
@@ -145,8 +147,8 @@ export function DashboardSummery() {
                 </Button>
               ))}
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

@@ -5,11 +5,11 @@ import { StockReportChart } from "@/components/ui/StockReportChart";
 
 export default function DashboardPage() {
   return (
-    <>
+    <div className="max-w-6xl mx-auto px-4">
       <DashboardSummery />
       <StockReportChart />
       <SalesOrderSummary />
       <ReOrderSoon />
-    </>
+    </div>
   );
 }

@@ -43,7 +43,7 @@ const reorderItems = [
 
 export function ReOrderSoon() {
   return (
-    <div className="w-full max-w-4xl mx-auto py-8 px-4">
+    <div className="w-full my-16">
       <h2 className="text-xl font-semibold mb-4">Re-Order Soon!</h2>
       <Carousel
         opts={{

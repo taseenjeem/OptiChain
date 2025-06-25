@@ -44,8 +44,8 @@ const chartConfig = {
 
 export function StockReportChart() {
   return (
-    <Card className="w-full rounded-none">
-      <CardHeader className="container mx-auto p-4">
+    <Card className="w-full">
+      <CardHeader className="">
         <CardTitle>Stock Report</CardTitle>
         <CardDescription>
           <div className="flex items-center justify-end gap-4 text-sm">
@@ -60,7 +60,7 @@ export function StockReportChart() {
           </div>
         </CardDescription>
       </CardHeader>
-      <CardContent className="container mx-auto p-4">
+      <CardContent className="">
         <ChartContainer config={chartConfig} className="h-[250px] w-full">
           <BarChart
             accessibilityLayer
@@ -73,7 +73,6 @@ export function StockReportChart() {
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              // --- THIS IS THE FIX ---
               tickFormatter={(value) => String(value).slice(0, 3)}
             />
             <YAxis

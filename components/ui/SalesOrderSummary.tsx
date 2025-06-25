@@ -49,8 +49,8 @@ const salesOrderData = [
 
 export function SalesOrderSummary() {
   return (
-    <Card className="w-full rounded-none border-t-0 shadow-none">
-      <CardHeader className="container mx-auto p-4">
+    <Card className="w-full mt-10">
+      <CardHeader className="">
         <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
           <CardTitle>Sales Order</CardTitle>
           <DropdownMenu>
@@ -74,7 +74,7 @@ export function SalesOrderSummary() {
           </DropdownMenu>
         </div>
       </CardHeader>
-      <CardContent className="container mx-auto p-4">
+      <CardContent className="">
         {/* On small screens, this wrapper allows the table to be scrolled horizontally */}
         <div className="w-full overflow-x-auto">
           <Table>
