@@ -49,7 +49,7 @@ const salesOrderData = [
 
 export function SalesOrderSummary() {
   return (
-    <Card className="w-full rounded-none border-t-0">
+    <Card className="w-full rounded-none border-t-0 shadow-none">
       <CardHeader className="container mx-auto p-4">
         <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
           <CardTitle>Sales Order</CardTitle>
