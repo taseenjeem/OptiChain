@@ -9,7 +9,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-// An array to hold the form field data for easy mapping
 const formFields = [
   {
     id: "companyName",
@@ -45,7 +44,6 @@ const formFields = [
 
 export default function AddSupplierPage() {
   return (
-    // This wrapper div centers the form on the page
     <div className="flex w-full items-center justify-center bg-slate-100 p-4 py-12 md:p-8">
       <Card className="w-full max-w-2xl rounded-2xl shadow-xl p-0">
         <CardHeader className="rounded-t-2xl bg-[#6E9E23] p-6">
@@ -55,14 +53,12 @@ export default function AddSupplierPage() {
         </CardHeader>
         <CardContent className="p-8">
           <form>
-            {/* The main grid for all form rows */}
             <div className="grid gap-6">
               {formFields.map((field) => (
                 <div
                   key={field.id}
                   className="grid grid-cols-1 items-center gap-2 md:grid-cols-3 md:gap-4"
                 >
-                  {/* The Label for the input field */}
                   <Label
                     htmlFor={field.id}
                     className="font-semibold md:text-right"
@@ -70,7 +66,7 @@ export default function AddSupplierPage() {
                     {field.label}
                     <span className="ml-1">:</span>
                   </Label>
-                  {/* The Input field */}
+
                   <Input
                     id={field.id}
                     type={field.type}
