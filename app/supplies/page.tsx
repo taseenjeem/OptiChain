@@ -124,13 +124,13 @@ export default function SuppliersPage() {
             <div className="flex items-center gap-4">
               <Avatar className="h-12 w-12">
                 <AvatarImage
-                  src="https://i.pravatar.cc/150?u=alyshakoy"
+                  src="https://randomuser.me/api/portraits/men/18.jpg"
                   alt="Alysha Koay"
                 />
                 <AvatarFallback>AK</AvatarFallback>
               </Avatar>
               <div>
-                <p className="font-semibold text-slate-800">Alysha Koay</p>
+                <p className="font-semibold text-slate-800">Asil Mizan</p>
                 <p className="text-sm text-slate-500">Admin</p>
               </div>
             </div>
