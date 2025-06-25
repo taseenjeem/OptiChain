@@ -9,7 +9,7 @@ export default function LandingPage() {
       }}
     >
       <div className="text-white font-bold text-5xl mb-10">
-        Opti<span className="text-primary">Chain</span>
+        Log<span className="text-primary">In</span>
       </div>
       <LoginForm />
     </main>
