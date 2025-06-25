@@ -46,7 +46,7 @@ export default function AddSupplierPage() {
   return (
     <div className="flex w-full items-center justify-center bg-slate-100 p-4 py-12 md:p-8">
       <Card className="w-full max-w-2xl rounded-2xl shadow-xl p-0">
-        <CardHeader className="rounded-t-2xl bg-[#6E9E23] p-6">
+        <CardHeader className="rounded-t-2xl bg-primary p-6">
           <CardTitle className="text-2xl font-bold text-white text-center">
             Add Supplier
           </CardTitle>
@@ -78,9 +78,7 @@ export default function AddSupplierPage() {
           </form>
         </CardContent>
         <CardFooter className="flex justify-end border-t p-6">
-          <Button className="bg-[#6E9E23] px-8 text-white hover:bg-[#5a831c]">
-            Save
-          </Button>
+          <Button>Save</Button>
         </CardFooter>
       </Card>
     </div>
