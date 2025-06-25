@@ -65,7 +65,7 @@ const quickActions = [
 
 export function DashboardSummery() {
   return (
-    <div className="w-full bg-[#F7F8FC] p-4 sm:p-6 lg:p-8">
+    <div className="w-full container mx-auto p-4 sm:p-6 lg:p-8">
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
         <div className="rounded-xl bg-white p-6 shadow-[0px_4px_20px_rgba(235,238,255,0.8)] lg:col-span-2">
           <h2 className="text-lg font-semibold text-slate-800">

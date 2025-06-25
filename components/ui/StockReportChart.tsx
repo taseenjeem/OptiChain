@@ -45,7 +45,7 @@ const chartConfig = {
 export function StockReportChart() {
   return (
     <Card className="w-full rounded-none">
-      <CardHeader>
+      <CardHeader className="container mx-auto p-4">
         <CardTitle>Stock Report</CardTitle>
         <CardDescription>
           <div className="flex items-center justify-end gap-4 text-sm">
@@ -60,7 +60,7 @@ export function StockReportChart() {
           </div>
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="container mx-auto p-4">
         <ChartContainer config={chartConfig} className="h-[250px] w-full">
           <BarChart
             accessibilityLayer
