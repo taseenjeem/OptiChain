@@ -47,7 +47,7 @@ export default function CreateOrderPage() {
     <div className="flex w-full items-center justify-center bg-slate-100 p-4 py-12 md:p-8">
       <Card className="w-full max-w-2xl rounded-2xl shadow-xl p-0">
         <CardHeader className="rounded-t-2xl bg-[#6E9E23] p-6">
-          <CardTitle className="text-center text-3xl font-bold text-white">
+          <CardTitle className="text-center text-2xl font-bold text-white">
             Create Order
           </CardTitle>
         </CardHeader>
