@@ -1,36 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
-interface User {
-  userId: string;
+import { AuthContext } from "@/app/providers/AuthProvider";
+import { useContext } from "react";
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("Something went wrong with auth provider");
+  }
+  return context;
 }
-interface AuthDetails {
-  user: User | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-}
-
-export const useAuth = (): AuthDetails => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    try {
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
-    } catch (error) {
-      console.error("Failed to parse user from localStorage", error);
-      setUser(null);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  return {
-    user,
-    isAuthenticated: !!user,
-    isLoading,
-  };
-};

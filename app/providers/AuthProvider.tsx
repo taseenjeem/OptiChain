@@ -1,19 +1,32 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, createContext, useContext } from "react";
 import { toast } from "sonner";
+
+interface AuthContextType {
+  user: string | null;
+  setUser: (user: string | null) => void;
+  isAuthChecked: boolean;
+}
+
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined
+);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
+  const [user, setUser] = useState<string | null>(null);
   const [isAuthChecked, setIsAuthChecked] = useState(false);
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
+    const storedUser = localStorage.getItem("user");
     const isLoginPage = pathname === "/";
 
-    if (!user && !isLoginPage) {
+    setUser(storedUser);
+
+    if (!storedUser && !isLoginPage) {
       setTimeout(() => {
         toast.error("Access Denied", {
           description: "You must be logged in to access this page.",
@@ -21,7 +34,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         });
       }, 500);
       router.push("/");
-    } else if (user && isLoginPage) {
+    } else if (storedUser && isLoginPage) {
       router.push("/dashboard");
     }
 
@@ -32,5 +45,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return null;
   }
 
-  return <>{children}</>;
+  return (
+    <AuthContext.Provider value={{ user, setUser, isAuthChecked }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
