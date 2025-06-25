@@ -27,7 +27,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 const navMenu = [
@@ -52,6 +52,7 @@ const navMenu = [
 export function Sidebar() {
   const { setUser } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -76,22 +77,25 @@ export function Sidebar() {
         <div className="px-4">
           <p className="text-xs font-bold mb-3">GENERAL</p>
           <ul>
-            {navMenu.map((item) => (
-              <li key={item.id} className="w-full">
-                <SheetClose asChild>
-                  <Button
-                    asChild
-                    variant="ghost"
-                    className="w-full justify-start"
-                  >
-                    <Link href={item.link}>
-                      {item.icon}
-                      {item.label}
-                    </Link>
-                  </Button>
-                </SheetClose>
-              </li>
-            ))}
+            {navMenu.map((item) => {
+              const isActive = pathname === item.link;
+              return (
+                <li key={item.id} className="w-full">
+                  <SheetClose asChild>
+                    <Button
+                      asChild
+                      variant={isActive ? "default" : "ghost"}
+                      className="w-full justify-start"
+                    >
+                      <Link href={item.link} className="flex items-center">
+                        <item.icon.type className="mr-2 h-4 w-4" />
+                        {item.label}
+                      </Link>
+                    </Button>
+                  </SheetClose>
+                </li>
+              );
+            })}
           </ul>
         </div>
 
