@@ -16,6 +16,7 @@ import {
   FileText,
   Upload,
 } from "lucide-react";
+import Link from "next/link";
 
 const salesData = [
   {
@@ -47,19 +48,23 @@ const salesData = [
 const quickActions = [
   {
     label: "Create Order",
-    icon: <PlusCircle className="mr-2 h-4 w-4" />,
+    icon: <PlusCircle />,
+    href: "/create-order",
   },
   {
     label: "Add Supplier",
-    icon: <FileText className="mr-2 h-4 w-4" />,
+    icon: <FileText />,
+    href: "/add-supplier",
   },
   {
     label: "Add Product",
-    icon: <ShoppingBag className="mr-2 h-4 w-4" />,
+    icon: <ShoppingBag />,
+    href: "/add-product",
   },
   {
     label: "Export",
-    icon: <Upload className="mr-2 h-4 w-4" />,
+    icon: <Upload />,
+    href: "#",
   },
 ];
 
@@ -133,8 +138,10 @@ export function DashboardSummery() {
                   variant="ghost"
                   className="h-auto justify-start p-0 font-medium text-slate-600 hover:bg-transparent hover:text-slate-900"
                 >
-                  {action.icon}
-                  {action.label}
+                  <Link href={action.href} className="flex items-center gap-2">
+                    {action.icon}
+                    {action.label}
+                  </Link>
                 </Button>
               ))}
             </div>

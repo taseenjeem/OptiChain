@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -30,12 +31,22 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 const navMenu = [
-  { id: "0", icon: <LayoutDashboard />, label: "Dashboard" },
-  { id: "1", icon: <Box />, label: "Inventory" },
-  { id: "2", icon: <ShoppingCart />, label: "Sales Orders" },
-  { id: "3", icon: <Truck />, label: "Supplies" },
-  { id: "4", icon: <ChartNoAxesCombined />, label: "Reports" },
-  { id: "5", icon: <Sparkle />, label: "About Us" },
+  {
+    id: "0",
+    icon: <LayoutDashboard />,
+    label: "Dashboard",
+    link: "/dashboard",
+  },
+  { id: "1", icon: <Box />, label: "Inventory", link: "/inventory" },
+  { id: "2", icon: <ShoppingCart />, label: "Sales Orders", link: "/orders" },
+  { id: "3", icon: <Truck />, label: "Supplies", link: "/supplies" },
+  {
+    id: "4",
+    icon: <ChartNoAxesCombined />,
+    label: "Reports",
+    link: "/reports",
+  },
+  { id: "5", icon: <Sparkle />, label: "About Us", link: "/about" },
 ];
 
 export function Sidebar() {
@@ -67,16 +78,18 @@ export function Sidebar() {
           <ul>
             {navMenu.map((item) => (
               <li key={item.id} className="w-full">
-                <Button
-                  asChild
-                  variant="ghost"
-                  className="w-full justify-start"
-                >
-                  <Link href="#">
-                    {item.icon}
-                    {item.label}
-                  </Link>
-                </Button>
+                <SheetClose asChild>
+                  <Button
+                    asChild
+                    variant="ghost"
+                    className="w-full justify-start"
+                  >
+                    <Link href={item.link}>
+                      {item.icon}
+                      {item.label}
+                    </Link>
+                  </Button>
+                </SheetClose>
               </li>
             ))}
           </ul>
