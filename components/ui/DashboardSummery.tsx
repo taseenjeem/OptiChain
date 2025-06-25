@@ -98,7 +98,7 @@ export function DashboardSummery() {
             <div className="flex items-center gap-4">
               <Avatar className="h-12 w-12">
                 <AvatarImage
-                  src="https://i.pravatar.cc/150?u=asilmizan"
+                  src="https://randomuser.me/api/portraits/men/18.jpg"
                   alt="Asil Mizan"
                 />
                 <AvatarFallback>AM</AvatarFallback>
