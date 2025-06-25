@@ -16,7 +16,7 @@ export default function Navbar() {
         </div>
         {isAuthChecked && (
           <div className="flex gap-4">
-            <div className="flex w-full max-w-sm items-center border border-gray-300 rounded-lg px-2.5">
+            <div className="lg:flex hidden w-full max-w-sm items-center border border-gray-300 rounded-lg px-2.5">
               <SearchIcon className="h-4 w-4 mr-2.5" />
               <Input
                 type="search"

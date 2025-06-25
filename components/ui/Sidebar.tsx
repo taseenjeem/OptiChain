@@ -1,9 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -11,7 +9,29 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import {
+  Box,
+  ChartNoAxesCombined,
+  Info,
+  LayoutDashboard,
+  LogOut,
+  Menu,
+  SearchIcon,
+  Settings,
+  ShoppingCart,
+  Sparkle,
+  Truck,
+} from "lucide-react";
+import Link from "next/link";
+
+const navMenu = [
+  { id: "0", icon: <LayoutDashboard />, label: "Dashboard" },
+  { id: "1", icon: <Box />, label: "Inventory" },
+  { id: "2", icon: <ShoppingCart />, label: "Sales Orders" },
+  { id: "3", icon: <Truck />, label: "Supplies" },
+  { id: "4", icon: <ChartNoAxesCombined />, label: "Reports" },
+  { id: "5", icon: <Sparkle />, label: "About Us" },
+];
 
 export function Sidebar() {
   return (
@@ -23,26 +43,73 @@ export function Sidebar() {
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Edit profile</SheetTitle>
-          <SheetDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
-          </SheetDescription>
+          <SheetTitle className="hidden" />
+          <SheetDescription className="hidden" />
         </SheetHeader>
-        <div className="grid flex-1 auto-rows-min gap-6 px-4">
-          <div className="grid gap-3">
-            <Label htmlFor="sheet-demo-name">Name</Label>
-            <Input id="sheet-demo-name" defaultValue="Pedro Duarte" />
+        <div className="px-4">
+          <p className="text-xs font-bold mb-3">GENERAL</p>
+          <ul>
+            {navMenu.map((item) => (
+              <li key={item.id} className="w-full">
+                <Button
+                  asChild
+                  variant={"ghost"}
+                  className="w-full justify-start"
+                >
+                  <Link className="w-full" href="#">
+                    {item.icon}
+                    {item.label}
+                  </Link>
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="px-4">
+          <p className="text-xs font-bold mb-3">SUPPORT</p>
+          <ul>
+            <li className="w-full">
+              <Button
+                asChild
+                variant={"ghost"}
+                className="w-full justify-start"
+              >
+                <Link className="w-full" href="#">
+                  <Info />
+                  Help
+                </Link>
+              </Button>
+            </li>
+            <li className="w-full">
+              <Button
+                asChild
+                variant={"ghost"}
+                className="w-full justify-start"
+              >
+                <Link className="w-full" href="#">
+                  <Settings />
+                  Settings
+                </Link>
+              </Button>
+            </li>
+          </ul>
+        </div>
+        <div className="flex gap-1 px-4 lg:hidden">
+          <div className="flex w-full max-w-sm items-center border border-gray-300 rounded-lg px-2.5">
+            <SearchIcon className="h-4 w-4 mr-2.5" />
+            <Input
+              type="search"
+              placeholder="Search..."
+              className="w-full border-0 focus:outline-none focus:ring-0  focus-visible:border-0 focus-visible:ring-0"
+            />
           </div>
-          <div className="grid gap-3">
-            <Label htmlFor="sheet-demo-username">Username</Label>
-            <Input id="sheet-demo-username" defaultValue="@peduarte" />
-          </div>
+          <Button variant={"default"}>Search</Button>
         </div>
         <SheetFooter>
-          <Button type="submit">Save changes</Button>
-          <SheetClose asChild>
-            <Button variant="outline">Close</Button>
-          </SheetClose>
+          <Button variant={"destructive"}>
+            <LogOut />
+            Log out
+          </Button>
         </SheetFooter>
       </SheetContent>
     </Sheet>
