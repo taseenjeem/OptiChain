@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -23,6 +25,9 @@ import {
   Truck,
 } from "lucide-react";
 import Link from "next/link";
+import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const navMenu = [
   { id: "0", icon: <LayoutDashboard />, label: "Dashboard" },
@@ -34,6 +39,16 @@ const navMenu = [
 ];
 
 export function Sidebar() {
+  const { setUser } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+    toast.success("Logged out successfully");
+    router.push("/");
+  };
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -46,6 +61,7 @@ export function Sidebar() {
           <SheetTitle className="hidden" />
           <SheetDescription className="hidden" />
         </SheetHeader>
+
         <div className="px-4">
           <p className="text-xs font-bold mb-3">GENERAL</p>
           <ul>
@@ -53,10 +69,10 @@ export function Sidebar() {
               <li key={item.id} className="w-full">
                 <Button
                   asChild
-                  variant={"ghost"}
+                  variant="ghost"
                   className="w-full justify-start"
                 >
-                  <Link className="w-full" href="#">
+                  <Link href="#">
                     {item.icon}
                     {item.label}
                   </Link>
@@ -65,28 +81,21 @@ export function Sidebar() {
             ))}
           </ul>
         </div>
+
         <div className="px-4">
           <p className="text-xs font-bold mb-3">SUPPORT</p>
           <ul>
             <li className="w-full">
-              <Button
-                asChild
-                variant={"ghost"}
-                className="w-full justify-start"
-              >
-                <Link className="w-full" href="#">
+              <Button asChild variant="ghost" className="w-full justify-start">
+                <Link href="#">
                   <Info />
                   Help
                 </Link>
               </Button>
             </li>
             <li className="w-full">
-              <Button
-                asChild
-                variant={"ghost"}
-                className="w-full justify-start"
-              >
-                <Link className="w-full" href="#">
+              <Button asChild variant="ghost" className="w-full justify-start">
+                <Link href="#">
                   <Settings />
                   Settings
                 </Link>
@@ -94,19 +103,21 @@ export function Sidebar() {
             </li>
           </ul>
         </div>
+
         <div className="flex gap-1 px-4 lg:hidden">
           <div className="flex w-full max-w-sm items-center border border-gray-300 rounded-lg px-2.5">
             <SearchIcon className="h-4 w-4 mr-2.5" />
             <Input
               type="search"
               placeholder="Search..."
-              className="w-full border-0 focus:outline-none focus:ring-0  focus-visible:border-0 focus-visible:ring-0"
+              className="w-full border-0 focus:outline-none focus:ring-0"
             />
           </div>
-          <Button variant={"default"}>Search</Button>
+          <Button variant="default">Search</Button>
         </div>
+
         <SheetFooter>
-          <Button variant={"destructive"}>
+          <Button variant="destructive" onClick={handleLogout}>
             <LogOut />
             Log out
           </Button>

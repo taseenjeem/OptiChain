@@ -6,7 +6,7 @@ import { Sidebar } from "./Sidebar";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function Navbar() {
-  const { isAuthChecked } = useAuth();
+  const { user, isAuthChecked } = useAuth();
 
   return (
     <nav className="w-full border-b">
@@ -14,7 +14,7 @@ export default function Navbar() {
         <div className="font-bold text-2xl">
           Opti<span className="text-primary">Chain</span>
         </div>
-        {isAuthChecked && (
+        {isAuthChecked && user && (
           <div className="flex gap-4">
             <div className="lg:flex hidden w-full max-w-sm items-center border border-gray-300 rounded-lg px-2.5">
               <SearchIcon className="h-4 w-4 mr-2.5" />
