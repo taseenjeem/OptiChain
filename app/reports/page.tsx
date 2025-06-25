@@ -29,6 +29,7 @@ import {
   ShoppingBag,
 } from "lucide-react";
 import { Bar, BarChart, LabelList, XAxis, YAxis } from "recharts";
+import Link from "next/link";
 
 // --- Mock Data ---
 
@@ -42,10 +43,26 @@ const topSuppliersData = [
 
 // Re-added icons for Quick Actions
 const quickActions = [
-  { label: "Create Order", icon: PlusCircle },
-  { label: "Add Supplier", icon: FileText },
-  { label: "Add Product", icon: ShoppingBag },
-  { label: "Export", icon: Upload },
+  {
+    label: "Create Order",
+    icon: <PlusCircle />,
+    href: "/create-order",
+  },
+  {
+    label: "Add Supplier",
+    icon: <FileText />,
+    href: "/add-supplier",
+  },
+  {
+    label: "Add Product",
+    icon: <ShoppingBag />,
+    href: "/add-product",
+  },
+  {
+    label: "Export",
+    icon: <Upload />,
+    href: "#",
+  },
 ];
 
 const weeklySalesData = Array.from({ length: 7 * 8 }, (_, i) => {
@@ -78,100 +95,112 @@ export default function ReportsPage() {
 
   return (
     <div className="flex min-h-screen w-full flex-col gap-8 p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto px-4">
-      {/* === Top Header === */}
-      <header className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-3xl font-bold text-slate-800">Reports</h1>
-        <div className="flex items-center gap-4">
-          <Button className="bg-[#6E9E23] hover:bg-[#5a831c]">
-            <Printer className="mr-2 h-4 w-4" /> Print Reports
-          </Button>
-          <div className="flex items-center gap-3">
-            <Avatar>
-              <AvatarImage src="https://i.pravatar.cc/150?u=asilmizan" />
-              <AvatarFallback>AM</AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="font-semibold text-slate-800">Asil Mizan</p>
-              <p className="text-sm text-slate-500">Admin</p>
-            </div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-9 w-9">
-                  <MoreHorizontal className="h-5 w-5" />
+      <div className="w-full">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          <Card className="lg:col-span-2">
+            <CardHeader>
+              <div className="flex flex-col lg:flex-row gap-4 items-center justify-between mb-5">
+                <h3 className="text-3xl font-bold">Reports</h3>
+                <Button className="w-full lg:w-auto">
+                  <Printer /> Print Reports
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Logout</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </div>
-      </header>
+              </div>
+              <CardTitle>Sales Summary</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid lg:grid-cols-2 items-center gap-4">
+                <ChartContainer
+                  config={{}}
+                  className="mx-auto aspect-square h-40"
+                >
+                  <PieChart>
+                    <Pie
+                      data={topSuppliersData}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={30}
+                      outerRadius={60}
+                      strokeWidth={2}
+                    >
+                      {topSuppliersData.map((entry) => (
+                        <Cell key={entry.name} fill={entry.color} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ChartContainer>
+                <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
+                  {topSuppliersData.map((item) => (
+                    <div key={item.name} className="flex items-center gap-2">
+                      <span
+                        className="block h-2.5 w-2.5 rounded-full"
+                        style={{ backgroundColor: item.color }}
+                      />
+                      <span className="text-slate-600">{item.name}</span>
+                      <span className="font-semibold text-slate-800">
+                        {item.value}%
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
-      {/* === First Row: Pie Chart & Quick Actions (UPDATED) === */}
-      <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Top Suppliers</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 items-center gap-4">
-              <ChartContainer
-                config={{}}
-                className="mx-auto aspect-square h-40"
-              >
-                <PieChart>
-                  <Pie
-                    data={topSuppliersData}
-                    dataKey="value"
-                    nameKey="name"
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={30}
-                    outerRadius={60}
-                    strokeWidth={2}
+          <Card className="space-y-8">
+            <CardHeader className="flex items-center justify-between border-b border-slate-200 pb-6">
+              <div className="flex items-center gap-4">
+                <Avatar className="h-12 w-12">
+                  <AvatarImage
+                    src="https://randomuser.me/api/portraits/men/18.jpg"
+                    alt="Asil Mizan"
+                  />
+                  <AvatarFallback>AM</AvatarFallback>
+                </Avatar>
+                <div>
+                  <p className="font-semibold text-slate-800">Asil Mizan</p>
+                  <p className="text-sm text-slate-500">Admin</p>
+                </div>
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="icon" className="h-9 w-9">
+                    <MoreHorizontal className="h-5 w-5 text-slate-500" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                  <DropdownMenuItem>Settings</DropdownMenuItem>
+                  <DropdownMenuItem>Logout</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </CardHeader>
+
+            <CardContent>
+              <h2 className="text-lg font-semibold text-slate-800">
+                Quick Actions
+              </h2>
+              <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-4">
+                {quickActions.map((action, index) => (
+                  <Button
+                    key={index}
+                    variant="ghost"
+                    className="h-auto justify-start p-0 font-medium text-slate-600 hover:bg-transparent hover:text-primary"
                   >
-                    {topSuppliersData.map((entry) => (
-                      <Cell key={entry.name} fill={entry.color} />
-                    ))}
-                  </Pie>
-                </PieChart>
-              </ChartContainer>
-              <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
-                {topSuppliersData.map((item) => (
-                  <div key={item.name} className="flex items-center gap-2">
-                    <span
-                      className="block h-2.5 w-2.5 rounded-full"
-                      style={{ backgroundColor: item.color }}
-                    />
-                    <span className="text-slate-600">{item.name}</span>
-                    <span className="font-semibold text-slate-800">
-                      {item.value}%
-                    </span>
-                  </div>
+                    <Link
+                      href={action.href}
+                      className="flex items-center gap-2"
+                    >
+                      {action.icon}
+                      {action.label}
+                    </Link>
+                  </Button>
                 ))}
               </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-          </CardHeader>
-          <CardContent className="grid grid-cols-2 gap-4">
-            {quickActions.map((action) => (
-              <Button
-                key={action.label}
-                variant="ghost"
-                className="justify-start font-medium text-slate-600 hover:text-slate-900"
-              >
-                <action.icon className="mr-3 h-4 w-4 text-slate-500" />
-                {action.label}
-              </Button>
-            ))}
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
       </div>
 
       {/* === Second Row: Weekly Sales Heatmap === */}

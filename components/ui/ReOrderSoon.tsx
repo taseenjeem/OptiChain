@@ -58,7 +58,7 @@ export function ReOrderSoon() {
               key={index}
               className="basis-1/2 md:basis-1/3 lg:basis-1/5"
             >
-              <div className="p-1">
+              <div className="p-2">
                 <Card className="shadow-sm hover:shadow-md transition-shadow">
                   <CardContent className="flex items-center gap-4 p-3">
                     <div className="relative h-8 w-8">
