@@ -30,7 +30,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-const navMenu = [
+const adminNav = [
   {
     id: "0",
     icon: <LayoutDashboard />,
@@ -49,10 +49,21 @@ const navMenu = [
   { id: "5", icon: <Sparkle />, label: "About Us", link: "/about" },
 ];
 
+const managerNav = [
+  { id: "3", icon: <Truck />, label: "Supplies", link: "/supplies" },
+  {
+    id: "4",
+    icon: <ChartNoAxesCombined />,
+    label: "Reports",
+    link: "/reports",
+  },
+];
+
 export function Sidebar() {
-  const { setUser } = useAuth();
+  const { user, setUser } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
+  const navMenu = user?.role === "admin" ? adminNav : managerNav;
 
   const handleLogout = () => {
     localStorage.removeItem("user");

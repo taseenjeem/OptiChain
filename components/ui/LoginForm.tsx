@@ -30,9 +30,13 @@ export function LoginForm() {
         });
         localStorage.setItem(
           "user",
-          JSON.stringify({ userId: foundUser.user_id })
+          JSON.stringify({ userId: foundUser.user_id, role: foundUser.role })
         );
-        router.push("/dashboard");
+        if (foundUser.role === "admin") {
+          router.push("/dashboard");
+        } else if (foundUser.role === "manager") {
+          router.push("/supplies");
+        }
       } else {
         toast.error("Invalid Credentials", {
           description: "Please check your ID and Password and try again.",

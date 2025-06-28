@@ -4,9 +4,14 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState, createContext, useContext } from "react";
 import { toast } from "sonner";
 
+interface IUser {
+  user_id: string;
+  role: string;
+}
+
 interface AuthContextType {
-  user: string | null;
-  setUser: (user: string | null) => void;
+  user: IUser | null;
+  setUser: (user: IUser | null) => void;
   isAuthChecked: boolean;
 }
 
@@ -17,7 +22,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const [user, setUser] = useState<string | null>(null);
+  const [user, setUser] = useState<IUser | null>(null);
   const [isAuthChecked, setIsAuthChecked] = useState(false);
 
   useEffect(() => {
@@ -36,9 +41,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         router.push("/");
       }
     } else {
-      setUser(storedUser);
-      if (isLoginPage) {
-        router.push("/dashboard");
+      try {
+        const parsedUser: IUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+        if (isLoginPage) {
+          router.push("/dashboard");
+        }
+      } catch (error) {
+        console.error("Invalid user data in localStorage", error);
+        setUser(null);
+        localStorage.removeItem("user");
+        router.push("/");
       }
     }
 

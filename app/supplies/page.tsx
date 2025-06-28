@@ -30,6 +30,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Search, MoreHorizontal } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 const suppliersData = [
   { name: "Apple", email: "apple@gmail.com", contact: "+63 123 4243" },
@@ -60,6 +61,7 @@ const topSuppliersData = [
 ];
 
 export default function SuppliersPage() {
+  const { user } = useAuth();
   return (
     <div className="w-full bg-slate-50 p-4 sm:p-6 lg:p-8">
       <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-3">
@@ -131,7 +133,9 @@ export default function SuppliersPage() {
               </Avatar>
               <div>
                 <p className="font-semibold text-slate-800">Asil Mizan</p>
-                <p className="text-sm text-slate-500">Admin</p>
+                <p className="text-sm text-slate-500">
+                  {user?.role === "admin" ? "Admin" : "Manager"}
+                </p>
               </div>
             </div>
             <DropdownMenu>

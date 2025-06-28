@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import { Bar, BarChart, LabelList, XAxis, YAxis } from "recharts";
 import Link from "next/link";
+import { useAuth } from "@/hooks/useAuth";
 
 // --- Mock Data ---
 
@@ -86,6 +87,7 @@ const performanceData = [
 // --- Main Component ---
 
 export default function ReportsPage() {
+  const { user } = useAuth();
   const getHeatmapColor = (value: number) => {
     if (value > 1000) return "bg-green-600";
     if (value > 500) return "bg-green-400";
@@ -160,7 +162,9 @@ export default function ReportsPage() {
                 </Avatar>
                 <div>
                   <p className="font-semibold text-slate-800">Asil Mizan</p>
-                  <p className="text-sm text-slate-500">Admin</p>
+                  <p className="text-sm text-slate-500">
+                    {user?.role === "admin" ? "Admin" : "Manager"}
+                  </p>
                 </div>
               </div>
               <DropdownMenu>
