@@ -38,7 +38,7 @@ const chartConfig = {
   },
   stockOut: {
     label: "Stock Out",
-    color: "#14AE5C",
+    color: "#e5a000",
   },
 } satisfies ChartConfig;
 
@@ -54,7 +54,7 @@ export function StockReportChart() {
               <span>Stock In</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="h-4 w-4 rounded-full bg-[#14AE5C]" />
+              <span className="h-4 w-4 rounded-full bg-[#e5a000]" />
               <span>Stock Out</span>
             </div>
           </div>
