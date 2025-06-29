@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import credentials from "@/app/data/credentials.json";
+import credentials from "@/data/credentials.json";
 
 export function LoginForm() {
   const router = useRouter();
