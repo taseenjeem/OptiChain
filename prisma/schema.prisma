@@ -30,15 +30,15 @@ model Products {
 }
 
 model Customers {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  customer_id String?
-  first_name  String?
-  last_name   String?
-  company     String?
-  phone       String?
-  email       String?
-  createdAt   DateTime? @default(now())
-  updatedAt   DateTime? @default(now())
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  customer_id      String?
+  first_name       String?
+  last_name        String?
+  supplier_company String?
+  phone            String?
+  email            String?
+  createdAt        DateTime? @default(now())
+  updatedAt        DateTime? @default(now())
 
   @@map("customers")
 }

@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,10 +11,11 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
 
 const formFields = [
   {
-    id: "companyName",
+    id: "supplierCompany",
     label: "Supplier Company Name",
     type: "text",
   },
@@ -33,16 +37,59 @@ const formFields = [
   {
     id: "phone",
     label: "Phone Number",
-    type: "tel",
-  },
-  {
-    id: "address",
-    label: "Company Address",
     type: "text",
   },
 ];
 
 export default function AddSupplierPage() {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const form = e.currentTarget as HTMLFormElement;
+    const formData = new FormData(form);
+
+    const data = {
+      supplierCompany: formData.get("supplierCompany"),
+      firstName: formData.get("firstName"),
+      lastName: formData.get("lastName"),
+      email: formData.get("email"),
+      phone: formData.get("phone"),
+    };
+
+    try {
+      const res = await fetch("/api/add-supplier", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        toast.success("Supplier Added", {
+          description: `Successfully added ${data.supplierCompany}.`,
+        });
+        form.reset();
+      } else {
+        toast.error("Failed to add supplier", {
+          description: result.error || "Something went wrong.",
+        });
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      toast.error("Request failed", {
+        description: "Check your connection or try again later.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex w-full items-center justify-center bg-slate-100 p-4 py-12 md:p-8">
       <Card className="w-full max-w-2xl rounded-2xl shadow-xl p-0">
@@ -52,7 +99,7 @@ export default function AddSupplierPage() {
           </CardTitle>
         </CardHeader>
         <CardContent className="p-8">
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="grid gap-6">
               {formFields.map((field) => (
                 <div
@@ -69,17 +116,21 @@ export default function AddSupplierPage() {
 
                   <Input
                     id={field.id}
+                    name={field.id}
                     type={field.type}
                     className="md:col-span-2"
+                    required
                   />
                 </div>
               ))}
             </div>
+            <CardFooter className="flex justify-end mt-6 p-0">
+              <Button type="submit" disabled={loading}>
+                {loading ? "Saving..." : "Save"}
+              </Button>
+            </CardFooter>
           </form>
         </CardContent>
-        <CardFooter className="flex justify-end border-t p-6">
-          <Button>Save</Button>
-        </CardFooter>
       </Card>
     </div>
   );
