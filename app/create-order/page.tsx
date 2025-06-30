@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,6 +10,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const formFields = [
   {
@@ -25,7 +29,7 @@ const formFields = [
   {
     id: "phone",
     label: "Phone number",
-    type: "tel",
+    type: "number",
     placeholder: "Enter phone number",
   },
   {
@@ -43,6 +47,56 @@ const formFields = [
 ];
 
 export default function CreateOrderPage() {
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    companyName: "",
+    email: "",
+    phone: "",
+    productName: "",
+    quantity: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    setLoading(true);
+    e.preventDefault();
+
+    try {
+      const res = await fetch("/api/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          supplier_company: formData.companyName,
+          email: formData.email,
+          phone: formData.phone,
+          product_name: formData.productName,
+          qty: Number(formData.quantity),
+        }),
+      });
+
+      if (res.ok) {
+        toast.success("Order created successfully");
+        setFormData({
+          companyName: "",
+          email: "",
+          phone: "",
+          productName: "",
+          quantity: "",
+        });
+      } else {
+        const errorData = await res.json();
+        toast.error(errorData.error || "Failed to create order");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="flex w-full items-center justify-center bg-slate-100 p-4 py-12 md:p-8">
       <Card className="w-full max-w-2xl rounded-2xl shadow-xl p-0">
@@ -52,7 +106,7 @@ export default function CreateOrderPage() {
           </CardTitle>
         </CardHeader>
         <CardContent className="p-8">
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="grid gap-6">
               {formFields.map((field) => (
                 <div
@@ -70,16 +124,21 @@ export default function CreateOrderPage() {
                     id={field.id}
                     type={field.type}
                     placeholder={field.placeholder}
+                    value={formData[field.id as keyof typeof formData]}
+                    onChange={handleChange}
                     className="md:col-span-2"
+                    required
                   />
                 </div>
               ))}
             </div>
+            <div className="flex justify-end mt-6">
+              <Button type="submit" disabled={loading}>
+                {loading ? "Creating..." : "Create Order"}
+              </Button>
+            </div>
           </form>
         </CardContent>
-        <CardFooter className="flex justify-end border-t p-6">
-          <Button>Create</Button>
-        </CardFooter>
       </Card>
     </div>
   );
