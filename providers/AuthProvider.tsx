@@ -1,5 +1,6 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState, createContext, useContext } from "react";
 import { toast } from "sonner";
@@ -62,7 +63,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setIsAuthChecked(true);
   }, [pathname, router]);
 
-  if (!isAuthChecked) return null;
+  if (!isAuthChecked) {
+    return (
+      <div className="fixed inset-0 z-50 flex h-screen w-screen flex-col items-center justify-center bg-background/80 backdrop-blur-sm">
+        <Loader2 className="h-16 w-16 animate-spin" aria-label="Loading" />
+        <p className="mt-4 text-lg font-medium text-foreground">
+          Checking Authentication. Please wait...
+        </p>
+      </div>
+    );
+  }
 
   return (
     <AuthContext.Provider value={{ user, setUser, isAuthChecked }}>
