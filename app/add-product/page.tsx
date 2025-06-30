@@ -11,7 +11,9 @@ import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -34,8 +36,8 @@ export default function AddProductPage() {
             <Input
               id="companyName"
               className="md:col-span-3"
-              defaultValue="Global Tech Supplies"
-              readOnly
+              type="text"
+              placeholder="Enter company name"
             />
           </div>
 
@@ -51,36 +53,41 @@ export default function AddProductPage() {
 
             <div className="grid grid-cols-[auto_2fr_1fr_1fr] items-center gap-x-4">
               <span className="font-semibold">1.</span>
-              <Input defaultValue="Wireless Keyboard" readOnly />
-              <Input defaultValue="150" readOnly />
-              <Input defaultValue="45.00" readOnly />
+              <Input type="text" placeholder="Enter item name" />
+              <Input type="number" placeholder="Enter quantity" min={1} />
+              <Input type="number" placeholder="Enter unit price" min={1} />
             </div>
 
             <div className="grid grid-cols-[auto_2fr_1fr_1fr] items-center gap-x-4">
               <span className="font-semibold">2.</span>
-              <Input defaultValue="Ergonomic Mouse" readOnly />
-              <Input defaultValue="200" readOnly />
-              <Input defaultValue="22.50" readOnly />
+              <Input type="text" placeholder="Enter item name" />
+              <Input type="number" placeholder="Enter quantity" min={1} />
+              <Input type="number" placeholder="Enter unit price" min={1} />
             </div>
 
             <div className="grid grid-cols-[auto_2fr_1fr_1fr] items-center gap-x-4">
               <span className="font-semibold">3.</span>
-              <Input defaultValue="4K Webcam" readOnly />
-              <Input defaultValue="120" readOnly />
-              <Input defaultValue="89.99" readOnly />
+              <Input type="text" placeholder="Enter item name" />
+              <Input type="number" placeholder="Enter quantity" />
+              <Input type="number" placeholder="Enter unit price" />
             </div>
           </div>
 
           <div className="grid grid-cols-1 items-center gap-2 md:grid-cols-4">
             <Label className="font-semibold">Order Status:</Label>
-            <Select defaultValue="confirmed">
-              <SelectTrigger className="md:col-span-2">
-                <SelectValue placeholder="Select status" />
+            <Select>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue
+                  placeholder="Select a status"
+                  className="text-black"
+                />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="confirmed">Confirmed</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
-                <SelectItem value="received">Received</SelectItem>
+                <SelectGroup>
+                  <SelectLabel>Status</SelectLabel>
+                  <SelectItem value="pending">Pending</SelectItem>
+                  <SelectItem value="received">Received</SelectItem>
+                </SelectGroup>
               </SelectContent>
             </Select>
           </div>
@@ -91,9 +98,9 @@ export default function AddProductPage() {
             </Label>
             <Input
               id="date"
-              type="text"
+              type="date"
               defaultValue="26-06-2025"
-              className="md:col-span-2"
+              className="md:col-span-1"
             />
           </div>
         </CardContent>
