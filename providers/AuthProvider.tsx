@@ -45,7 +45,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const parsedUser: IUser = JSON.parse(storedUser);
         setUser(parsedUser);
         if (isLoginPage) {
-          router.push("/dashboard");
+          if (parsedUser.role === "admin") {
+            router.push("/dashboard");
+          } else if (parsedUser.role === "manager") {
+            router.push("/supplies");
+          }
         }
       } catch (error) {
         console.error("Invalid user data in localStorage", error);
