@@ -17,35 +17,24 @@ datasource db {
 
 model Products {
   id           String  @id @default(auto()) @map("_id") @db.ObjectId
-  name         String
-  description  String?
-  brand        String?
-  category     String?
-  price        Float
+  name         String?
+  price        Float?
   currency     String?
-  stock        Int
-  ean          Int
-  color        String?
-  size         String?
-  availability String?
-  internal_id  Int
+  stock        Int?
+  order_status String?
+  order_date   String?
 
   @@map("products")
 }
 
 model Customers {
-  id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  customer_id       String
-  first_name        String
-  last_name         String
-  company           String?
-  city              String?
-  country           String?
-  phone1            String?
-  phone2            String?
-  email             String
-  subscription_date String?
-  website           String?
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  customer_id String?
+  first_name  String?
+  last_name   String?
+  company     String?
+  phone       String?
+  email       String?
 
   @@map("customers")
 }
