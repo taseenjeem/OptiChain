@@ -31,6 +31,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Search, MoreHorizontal } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import Link from "next/link";
 
 const suppliersData = [
   { name: "Apple", email: "apple@gmail.com", contact: "+63 123 4243" },
@@ -47,10 +48,10 @@ const suppliersData = [
 ];
 
 const quickActions = [
-  { label: "Create Order", shortcut: ["ctrl", "n"] },
-  { label: "Add Product", shortcut: ["ctrl", "p"] },
-  { label: "Add Supplier", shortcut: ["ctrl", "k"] },
-  { label: "Export", shortcut: ["ctrl", "s"] },
+  { label: "Create Order", href: "/create-order", shortcut: ["ctrl", "n"] },
+  { label: "Add Product", href: "/add-product", shortcut: ["ctrl", "p"] },
+  { label: "Add Supplier", href: "/add-supplier", shortcut: ["ctrl", "k"] },
+  { label: "Export", href: "#", shortcut: ["ctrl", "s"] },
 ];
 
 const topSuppliersData = [
@@ -161,7 +162,12 @@ export default function SuppliersPage() {
                   key={action.label}
                   className="flex items-center justify-between"
                 >
-                  <p className="font-medium text-slate-600">{action.label}</p>
+                  <Link
+                    href={action.href}
+                    className="font-medium text-slate-600 hover:text-primary"
+                  >
+                    {action.label}
+                  </Link>
                   <p className="text-sm text-muted-foreground">
                     {action.shortcut.join(" + ")}
                   </p>

@@ -37,8 +37,8 @@ const adminNav = [
     label: "Dashboard",
     link: "/dashboard",
   },
-  { id: "1", icon: <Box />, label: "Inventory", link: "/inventory" },
-  { id: "2", icon: <ShoppingCart />, label: "Sales Orders", link: "/orders" },
+  { id: "1", icon: <Box />, label: "Inventory", link: "#" },
+  { id: "2", icon: <ShoppingCart />, label: "Sales Orders", link: "#" },
   { id: "3", icon: <Truck />, label: "Supplies", link: "/supplies" },
   {
     id: "4",
@@ -46,7 +46,7 @@ const adminNav = [
     label: "Reports",
     link: "/reports",
   },
-  { id: "5", icon: <Sparkle />, label: "About Us", link: "/about" },
+  { id: "5", icon: <Sparkle />, label: "About Us", link: "#" },
 ];
 
 const managerNav = [
