@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { SearchIcon } from "lucide-react";
 import { Sidebar } from "./Sidebar";
 import { useAuth } from "@/hooks/useAuth";
+import Link from "next/link";
 
 export default function Navbar() {
   const { user, isAuthChecked } = useAuth();
@@ -11,9 +12,11 @@ export default function Navbar() {
   return (
     <nav className="w-full border-b">
       <section className="container mx-auto p-4 w-full flex items-center justify-between">
-        <div className="font-bold text-2xl">
-          Opti<span className="text-primary">Chain</span>
-        </div>
+        <Link href={user?.role === "admin" ? "/dashboard" : "/supplies"}>
+          <div className="font-bold text-2xl">
+            Opti<span className="text-primary">Chain</span>
+          </div>
+        </Link>
         {isAuthChecked && user && (
           <div className="flex gap-4">
             <div className="lg:flex hidden w-full max-w-sm items-center border border-gray-300 rounded-lg px-2.5">
