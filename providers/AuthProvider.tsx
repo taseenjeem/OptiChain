@@ -48,8 +48,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (isLoginPage) {
           if (parsedUser.role === "admin") {
             router.push("/dashboard");
+            setTimeout(() => {
+              toast.success("Already Authenticated!", {
+                description: `Welcome back! Redirecting to your dashboard...`,
+              });
+            }, 500);
           } else if (parsedUser.role === "manager") {
             router.push("/supplies");
+            setTimeout(() => {
+              toast.success("Already Authenticated!", {
+                description: `Welcome back! Redirecting to your supplies...`,
+              });
+            }, 500);
           }
         }
       } catch (error) {

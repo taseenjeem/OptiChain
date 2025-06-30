@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Pie, PieChart, Cell } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -29,23 +30,10 @@ import { ChartContainer } from "@/components/ui/chart";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Search, MoreHorizontal } from "lucide-react";
+import { Search, MoreHorizontal, Loader2 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
-
-const suppliersData = [
-  { name: "Apple", email: "apple@gmail.com", contact: "+63 123 4243" },
-  { name: "Samsung", email: "samsung@gmail.com", contact: "+63 133 3453" },
-  { name: "Mugna Tech", email: "logitech@gmail.com", contact: "+63 433 4451" },
-  { name: "Logitech", email: "xiao.mi@gmail.com", contact: "+63 433 4531" },
-  { name: "Asus", email: "asus@gmail.com", contact: "+63 234 6457" },
-  { name: "Lian Li", email: "microsoft@gmail.com", contact: "+63 546 8345" },
-  { name: "NZXT", email: "hello@mugna.tech", contact: "+63 917 1033 599" },
-  { name: "Xiaomi", email: "lianli@gmail.com", contact: "+63 123 3345" },
-  { name: "Microsoft", email: "akko@gmail.com", contact: "+63 334 5673" },
-  { name: "Sony", email: "intel@gmail.com", contact: "+63 986 7465" },
-  { name: "Dell", email: "nvidia@gmail.com", contact: "+63 461 4677" },
-];
+import { OrderDetailsModal } from "@/components/ui/OrderDetailsModal";
 
 const quickActions = [
   { label: "Create Order", href: "/create-order", shortcut: ["ctrl", "n"] },
@@ -63,6 +51,25 @@ const topSuppliersData = [
 
 export default function SuppliersPage() {
   const { user } = useAuth();
+  const [orders, setOrders] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch("/api/orders");
+        const data = await res.json();
+        setOrders(data);
+      } catch (err) {
+        console.error("Failed to fetch orders", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchOrders();
+  }, []);
+
   return (
     <div className="w-full bg-slate-50 p-4 sm:p-6 lg:p-8">
       <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-3">
@@ -82,8 +89,20 @@ export default function SuppliersPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="w-full overflow-x-auto">
-              <Table>
+            <div className="relative w-full overflow-x-auto">
+              {loading && (
+                <div className="absolute inset-0 z-10 flex h-full w-full flex-col items-center justify-center bg-white/80 backdrop-blur-sm">
+                  <Loader2
+                    className="h-10 w-10 animate-spin"
+                    aria-label="Loading"
+                  />
+                  <p className="mt-4 text-lg font-medium text-foreground">
+                    Fetching Data...
+                  </p>
+                </div>
+              )}
+
+              <Table className={loading ? "opacity-50" : ""}>
                 <TableHeader>
                   <TableRow className="bg-slate-100 hover:bg-slate-100">
                     <TableHead className="font-semibold text-slate-700">
@@ -98,24 +117,28 @@ export default function SuppliersPage() {
                     <TableHead></TableHead>
                   </TableRow>
                 </TableHeader>
+
                 <TableBody>
-                  {suppliersData.map((supplier) => (
-                    <TableRow key={supplier.name}>
-                      <TableCell className="font-medium">
-                        {supplier.name}
-                      </TableCell>
-                      <TableCell>{supplier.email}</TableCell>
-                      <TableCell>{supplier.contact}</TableCell>
-                      <TableCell className="text-right">
-                        <Button
-                          variant="link"
-                          className="text-green-600 p-0 h-auto"
-                        >
-                          Order History
-                        </Button>
+                  {orders.length > 0 ? (
+                    orders.map((order, i) => (
+                      <TableRow key={i}>
+                        <TableCell className="font-medium">
+                          {order.supplier_company}
+                        </TableCell>
+                        <TableCell>{order.email}</TableCell>
+                        <TableCell>{order.phone}</TableCell>
+                        <TableCell className="text-right">
+                          <OrderDetailsModal order={order} />
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={4} className="h-24 text-center">
+                        No results.
                       </TableCell>
                     </TableRow>
-                  ))}
+                  )}
                 </TableBody>
               </Table>
             </div>
@@ -128,9 +151,9 @@ export default function SuppliersPage() {
               <Avatar className="h-12 w-12">
                 <AvatarImage
                   src="https://randomuser.me/api/portraits/men/18.jpg"
-                  alt="Alysha Koay"
+                  alt="User"
                 />
-                <AvatarFallback>AK</AvatarFallback>
+                <AvatarFallback>U</AvatarFallback>
               </Avatar>
               <div>
                 <p className="font-semibold text-slate-800">Asil Mizan</p>
