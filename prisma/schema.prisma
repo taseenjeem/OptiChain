@@ -42,3 +42,14 @@ model Customers {
 
   @@map("customers")
 }
+
+model Orders {
+  id               String  @id @default(auto()) @map("_id") @db.ObjectId
+  supplier_company String?
+  email            String?
+  phone            String?
+  product_name     String?
+  qty              Int?
+
+  @@map("orders")
+}
