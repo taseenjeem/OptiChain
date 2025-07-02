@@ -27,7 +27,5 @@ export async function POST(req: Request) {
       { error: "Failed to add supplier" },
       { status: 500 }
     );
-  } finally {
-    await database.$disconnect();
   }
 }
