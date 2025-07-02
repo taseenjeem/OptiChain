@@ -50,6 +50,7 @@ model Orders {
   phone            String?
   product_name     String?
   qty              Int?
+  status           String?   @default("pending")
   createdAt        DateTime? @default(now())
   updatedAt        DateTime? @default(now())
 

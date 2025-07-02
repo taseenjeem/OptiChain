@@ -60,7 +60,10 @@ export default function SuppliersPage() {
       try {
         const res = await fetch("/api/orders");
         const data = await res.json();
-        setOrders(data);
+        const pendingOrders = data.filter(
+          (order: any) => order.status === "pending"
+        );
+        setOrders(pendingOrders);
       } catch (err) {
         console.error("Failed to fetch orders", err);
       } finally {

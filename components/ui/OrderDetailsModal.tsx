@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,8 +12,11 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "./label";
 import { Input } from "./input";
+import { toast } from "sonner";
+import { useState } from "react";
 
 interface Order {
+  id?: string;
   supplier_company?: string;
   email?: string;
   phone?: string;
@@ -42,6 +46,31 @@ function formatFullDateTime(isoString: string) {
 }
 
 export function OrderDetailsModal({ order }: OrderDetailsModalProps) {
+  const [loading, setLoading] = useState(false);
+  const handleArrived = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/orders/status", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: order.id }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        toast.success("Status updated to arrived!");
+      } else {
+        toast.error(data.error || "Failed to update status.");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -108,7 +137,9 @@ export function OrderDetailsModal({ order }: OrderDetailsModalProps) {
           <DialogClose asChild>
             <Button>Close</Button>
           </DialogClose>
-          <Button type="submit">Arrived</Button>
+          <Button onClick={handleArrived} disabled={loading} type="submit">
+            {loading ? "Updating..." : "Arrived"}
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
