@@ -25,8 +25,9 @@ interface Order {
   createdAt?: string;
 }
 
-interface OrderDetailsModalProps {
+interface Props {
   order: Order;
+  onStatusUpdate: () => void;
 }
 
 function formatFullDateTime(isoString: string) {
@@ -45,7 +46,7 @@ function formatFullDateTime(isoString: string) {
   return formatted;
 }
 
-export function OrderDetailsModal({ order }: OrderDetailsModalProps) {
+export function OrderDetailsModal({ order, onStatusUpdate }: Props) {
   const [loading, setLoading] = useState(false);
   const handleArrived = async () => {
     setLoading(true);
@@ -60,6 +61,7 @@ export function OrderDetailsModal({ order }: OrderDetailsModalProps) {
 
       if (data.success) {
         toast.success("Status updated to arrived!");
+        onStatusUpdate();
       } else {
         toast.error(data.error || "Failed to update status.");
       }
@@ -137,9 +139,11 @@ export function OrderDetailsModal({ order }: OrderDetailsModalProps) {
           <DialogClose asChild>
             <Button>Close</Button>
           </DialogClose>
-          <Button onClick={handleArrived} disabled={loading} type="submit">
-            {loading ? "Updating..." : "Arrived"}
-          </Button>
+          <DialogClose asChild>
+            <Button onClick={handleArrived} disabled={loading} type="submit">
+              {loading ? "Updating..." : "Arrived"}
+            </Button>
+          </DialogClose>
         </div>
       </DialogContent>
     </Dialog>

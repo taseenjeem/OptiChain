@@ -54,22 +54,23 @@ export default function SuppliersPage() {
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const fetchOrders = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/orders");
+      const data = await res.json();
+      const pendingOrders = data.filter(
+        (order: any) => order.status === "pending"
+      );
+      setOrders(pendingOrders);
+    } catch (err) {
+      console.error("Failed to fetch orders", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchOrders = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch("/api/orders");
-        const data = await res.json();
-        const pendingOrders = data.filter(
-          (order: any) => order.status === "pending"
-        );
-        setOrders(pendingOrders);
-      } catch (err) {
-        console.error("Failed to fetch orders", err);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchOrders();
   }, []);
 
@@ -131,7 +132,10 @@ export default function SuppliersPage() {
                         <TableCell>{order.email}</TableCell>
                         <TableCell>{order.phone}</TableCell>
                         <TableCell className="text-right">
-                          <OrderDetailsModal order={order} />
+                          <OrderDetailsModal
+                            order={order}
+                            onStatusUpdate={fetchOrders}
+                          />
                         </TableCell>
                       </TableRow>
                     ))
