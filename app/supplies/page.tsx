@@ -42,17 +42,15 @@ const quickActions = [
   { label: "Export", href: "#", shortcut: ["ctrl", "s"] },
 ];
 
-const topSuppliersData = [
-  { name: "Apple", value: 61, color: "#511D43" },
-  { name: "Samsung", value: 15, color: "#901E3E" },
-  { name: "Asus", value: 13, color: "#DC2525" },
-  { name: "Xiaomi", value: 11, color: "#9BC09C" },
-];
-
 export default function SuppliersPage() {
   const { user } = useAuth();
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [topSuppliersData, setTopSuppliersData] = useState<
+    { name: string; value: number; color: string }[]
+  >([]);
+  console.log(topSuppliersData);
+  const colors = ["#511D43", "#901E3E", "#DC2525", "#9BC09C", "#FFE28A"];
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -63,6 +61,25 @@ export default function SuppliersPage() {
         (order: any) => order.status === "pending"
       );
       setOrders(pendingOrders);
+
+      const counts: Record<string, number> = {};
+      for (const order of data) {
+        const name = order.supplier_company;
+        counts[name] = (counts[name] || 0) + 1;
+      }
+
+      const total = Object.values(counts).reduce((a, b) => a + b, 0);
+
+      const top = Object.entries(counts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5)
+        .map(([name, count], idx) => ({
+          name,
+          value: Math.round((count / total) * 100),
+          color: colors[idx % colors.length],
+        }));
+
+      setTopSuppliersData(top);
     } catch (err) {
       console.error("Failed to fetch orders", err);
     } finally {
