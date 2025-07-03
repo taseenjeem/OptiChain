@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,36 +18,10 @@ import {
   PlusCircle,
   FileText,
   Upload,
+  Loader2,
 } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "./card";
-
-const salesData = [
-  {
-    title: "Today's Sale",
-    amount: "143.3k",
-    icon: <TrendingUp className="h-5 w-5 text-blue-500" />,
-    iconBg: "bg-blue-100",
-  },
-  {
-    title: "Yearly Total Sales",
-    amount: "$250,423",
-    icon: <Calendar className="h-5 w-5 text-purple-500" />,
-    iconBg: "bg-purple-100",
-  },
-  {
-    title: "Net Income",
-    amount: "$68.9k",
-    icon: <DollarSign className="h-5 w-5 text-orange-500" />,
-    iconBg: "bg-orange-100",
-  },
-  {
-    title: "Products",
-    amount: "343",
-    icon: <ShoppingBag className="h-5 w-5 text-pink-500" />,
-    iconBg: "bg-pink-100",
-  },
-];
 
 const quickActions = [
   {
@@ -70,6 +47,28 @@ const quickActions = [
 ];
 
 export function DashboardSummery() {
+  const [loading, setLoading] = useState(false);
+  const [summary, setSummary] = useState<{
+    totalPrice: number;
+    totalCount: number;
+  } | null>(null);
+
+  useEffect(() => {
+    setLoading(true);
+    const fetchSummary = async () => {
+      try {
+        const res = await fetch("/api/products/summary");
+        const data = await res.json();
+        setSummary(data);
+      } catch (err) {
+        console.error("Failed to fetch product summary", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSummary();
+  }, []);
+
   return (
     <div className="w-full my-10">
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
@@ -78,65 +77,82 @@ export function DashboardSummery() {
             <CardTitle>Sales Summary</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              <Card>
-                <CardContent className="flex items-center gap-3">
-                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-blue-100">
-                    <TrendingUp className="h-5 w-5 text-blue-500" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-slate-900">143.3k</p>
-                    <p className="text-sm text-slate-500">Today's Sale</p>
-                  </div>
-                </CardContent>
-              </Card>
+            {loading ? (
+              <div className="flex flex-col gap-3 text-muted-foreground h-56 items-center justify-center">
+                <Loader2 className="h-8 w-8 animate-spin" />
+                Fetching Summary. Please wait...
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                {/* Today's Sale */}
+                <Card>
+                  <CardContent className="flex items-center gap-3">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
+                      <TrendingUp className="h-5 w-5 text-blue-500" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-slate-900">
+                        143.3k
+                      </p>
+                      <p className="text-sm text-slate-500">Today's Sale</p>
+                    </div>
+                  </CardContent>
+                </Card>
 
-              {/* Yearly Total Sales */}
-              <Card>
-                <CardContent className="flex items-center gap-3 ">
-                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-purple-100">
-                    <Calendar className="h-5 w-5 text-purple-500" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-slate-900">
-                      $250,423
-                    </p>
-                    <p className="text-sm text-slate-500">Yearly Total Sales</p>
-                  </div>
-                </CardContent>
-              </Card>
+                {/* Yearly Total Sales */}
+                <Card>
+                  <CardContent className="flex items-center gap-3">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-purple-100">
+                      <Calendar className="h-5 w-5 text-purple-500" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-slate-900">
+                        $250,423
+                      </p>
+                      <p className="text-sm text-slate-500">
+                        Yearly Total Sales
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
 
-              {/* Total Product Price */}
-              <Card>
-                <CardContent className="flex items-center gap-3">
-                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-orange-100">
-                    <DollarSign className="h-5 w-5 text-orange-500" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-slate-900">$68.9k</p>
-                    <p className="text-sm text-slate-500">
-                      Total Product Price
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
+                {/* Total Product Price */}
+                <Card>
+                  <CardContent className="flex items-center gap-3">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-100">
+                      <DollarSign className="h-5 w-5 text-orange-500" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-slate-900">
+                        ${summary?.totalPrice.toLocaleString() || 0}
+                      </p>
+                      <p className="text-sm text-slate-500">
+                        Total Product Price
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
 
-              {/* Products */}
-              <Card>
-                <CardContent className="flex items-center gap-3 ">
-                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-pink-100">
-                    <ShoppingBag className="h-5 w-5 text-pink-500" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-slate-900">343</p>
-                    <p className="text-sm text-slate-500">Products</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+                {/* Products */}
+                <Card>
+                  <CardContent className="flex items-center gap-3">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-pink-100">
+                      <ShoppingBag className="h-5 w-5 text-pink-500" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-slate-900">
+                        {summary?.totalCount || 0}
+                      </p>
+                      <p className="text-sm text-slate-500">Products</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
           </CardContent>
         </Card>
 
+        {/* Right Sidebar Card - Admin Info & Quick Actions */}
         <Card className="space-y-8">
           <CardHeader className="flex items-center justify-between border-b border-slate-200 pb-6">
             <div className="flex items-center gap-4">
