@@ -79,23 +79,60 @@ export function DashboardSummery() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              {salesData.map((item, index) => (
-                <Card key={index}>
-                  <CardContent className="flex items-center gap-3">
-                    <div
-                      className={`flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full ${item.iconBg}`}
-                    >
-                      {item.icon}
-                    </div>
-                    <div>
-                      <p className="text-2xl font-bold text-slate-900">
-                        {item.amount}
-                      </p>
-                      <p className="text-sm text-slate-500">{item.title}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+              <Card>
+                <CardContent className="flex items-center gap-3">
+                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-blue-100">
+                    <TrendingUp className="h-5 w-5 text-blue-500" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-slate-900">143.3k</p>
+                    <p className="text-sm text-slate-500">Today's Sale</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Yearly Total Sales */}
+              <Card>
+                <CardContent className="flex items-center gap-3 ">
+                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-purple-100">
+                    <Calendar className="h-5 w-5 text-purple-500" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-slate-900">
+                      $250,423
+                    </p>
+                    <p className="text-sm text-slate-500">Yearly Total Sales</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Total Product Price */}
+              <Card>
+                <CardContent className="flex items-center gap-3">
+                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-orange-100">
+                    <DollarSign className="h-5 w-5 text-orange-500" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-slate-900">$68.9k</p>
+                    <p className="text-sm text-slate-500">
+                      Total Product Price
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Products */}
+              <Card>
+                <CardContent className="flex items-center gap-3 ">
+                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-pink-100">
+                    <ShoppingBag className="h-5 w-5 text-pink-500" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-slate-900">343</p>
+                    <p className="text-sm text-slate-500">Products</p>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </CardContent>
         </Card>
