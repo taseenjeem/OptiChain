@@ -13,7 +13,9 @@ import {
 import { Label } from "./label";
 import { Input } from "./input";
 import { toast } from "sonner";
-import { useState } from "react";
+import { use, useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 interface Order {
   id?: string;
@@ -47,7 +49,9 @@ function formatFullDateTime(isoString: string) {
 }
 
 export function OrderDetailsModal({ order, onStatusUpdate }: Props) {
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const handleArrived = async () => {
     setLoading(true);
     try {
