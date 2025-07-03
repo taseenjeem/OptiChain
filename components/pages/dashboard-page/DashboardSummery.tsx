@@ -21,7 +21,7 @@ import {
   Loader2,
 } from "lucide-react";
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "./card";
+import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 
 const quickActions = [
   {

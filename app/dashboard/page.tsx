@@ -1,7 +1,7 @@
-import { DashboardSummery } from "@/components/ui/DashboardSummery";
-import { ReOrderSoon } from "@/components/ui/ReOrderSoon";
-import { SalesOrderSummary } from "@/components/ui/SalesOrderSummary";
-import { StockReportChart } from "@/components/ui/StockReportChart";
+import { DashboardSummery } from "@/components/pages/dashboard-page/DashboardSummery";
+import { ReOrderSoon } from "@/components/pages/dashboard-page/ReOrderSoon";
+import { SalesOrderSummary } from "@/components/pages/dashboard-page/SalesOrderSummary";
+import { StockReportChart } from "@/components/pages/dashboard-page/StockReportChart";
 
 export default function DashboardPage() {
   return (
