@@ -22,6 +22,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 type ProductField = "name" | "quantity" | "price";
 
@@ -44,6 +46,8 @@ export default function AddProductPage() {
   const [checking, setChecking] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [checked, setChecked] = useState<null | boolean>(null);
+  const { user } = useAuth();
+  const router = useRouter();
 
   const handleCompanyBlur = async () => {
     if (!companyName) return;
@@ -63,6 +67,11 @@ export default function AddProductPage() {
         setCompanyValid(false);
         setChecked(false);
         toast.error("This supplier does not exist. Please add it first.");
+        if (user?.role === "admin") {
+          router.push("/dashboard");
+        } else {
+          router.push("/supplies");
+        }
       }
     } catch (err) {
       console.error(err);

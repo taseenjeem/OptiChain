@@ -12,6 +12,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 const formFields = [
   {
@@ -43,6 +45,8 @@ const formFields = [
 
 export default function AddSupplierPage() {
   const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,6 +79,11 @@ export default function AddSupplierPage() {
           description: `Successfully added ${data.supplierCompany}.`,
         });
         form.reset();
+        if (user?.role === "admin") {
+          router.push("/dashboard");
+        } else {
+          router.push("/supplies");
+        }
       } else {
         toast.error("Failed to add supplier", {
           description: result.error || "Something went wrong.",

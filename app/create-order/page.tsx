@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -49,6 +51,8 @@ export default function CreateOrderPage() {
     productName: "",
     quantity: "",
   });
+  const { user } = useAuth();
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -80,6 +84,11 @@ export default function CreateOrderPage() {
           productName: "",
           quantity: "",
         });
+        if (user?.role === "admin") {
+          router.push("/dashboard");
+        } else {
+          router.push("/supplies");
+        }
       } else {
         const errorData = await res.json();
         toast.error(errorData.error || "Failed to create order");
