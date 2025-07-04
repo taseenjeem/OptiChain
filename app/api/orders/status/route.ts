@@ -14,7 +14,7 @@ export async function PATCH(req: NextRequest) {
 
     const updatedOrder = await database.orders.update({
       where: { id },
-      data: { status: "arrived" },
+      data: { status: "arrived", updatedAt: new Date() },
     });
 
     return NextResponse.json({ success: true, order: updatedOrder });
