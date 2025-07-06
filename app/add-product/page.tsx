@@ -67,11 +67,6 @@ export default function AddProductPage() {
         setCompanyValid(false);
         setChecked(false);
         toast.error("This supplier does not exist. Please add it first.");
-        if (user?.role === "admin") {
-          router.push("/dashboard");
-        } else {
-          router.push("/supplies");
-        }
       }
     } catch (err) {
       console.error(err);
@@ -146,6 +141,11 @@ export default function AddProductPage() {
       if (res.ok) {
         toast.success("Products added successfully.");
         resetForm();
+        if (user?.role === "admin") {
+          router.push("/dashboard");
+        } else {
+          router.push("/supplies");
+        }
       } else {
         toast.error("Failed to add products.");
       }
