@@ -10,7 +10,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-// --- TypeScript Interfaces ---
 interface Order {
   _id: string;
   supplier_company: string;
@@ -30,10 +29,9 @@ export default function SupplierPerformanceReport() {
   const [performanceData, setPerformanceData] = useState<PerformanceData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  // FIX: State to ensure component only renders on the client
+
   const [isClient, setIsClient] = useState(false);
 
-  // Set isClient to true only after the component mounts
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -123,7 +121,6 @@ export default function SupplierPerformanceReport() {
   }, []);
 
   const renderContent = () => {
-    // FIX: Add isClient check to prevent SSR of the chart
     if (!isClient || isLoading) {
       return (
         <div className="h-[300px] w-full flex items-center justify-center text-muted-foreground">

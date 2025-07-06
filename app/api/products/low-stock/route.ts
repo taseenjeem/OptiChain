@@ -9,11 +9,6 @@ export async function GET() {
           lt: 50,
         },
       },
-      select: {
-        id: true,
-        name: true,
-        stock: true,
-      },
       orderBy: {
         stock: "asc",
       },
