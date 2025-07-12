@@ -19,6 +19,7 @@ type Products = {
   stock?: number | null;
   order_status?: string | null;
   order_date?: string | null;
+  updated_at?: Date | null;
 };
 
 export default function ProductTable({
