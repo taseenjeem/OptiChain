@@ -52,14 +52,20 @@ export function ReOrderSoon() {
   }, []);
 
   if (loading) {
-    return <p className="my-6 text-sm text-muted-foreground">Loading...</p>;
+    return (
+      <div className="border rounded-xl h-[220px] flex justify-center items-center my-16">
+        <p className="my-6 text-sm text-muted-foreground">Loading...</p>
+      </div>
+    );
   }
 
   if (products.length === 0) {
     return (
-      <p className="my-6 text-sm text-muted-foreground">
-        No products need reordering.
-      </p>
+      <div className="border rounded-xl h-[220px] flex justify-center items-center my-16">
+        <p className="my-6 text-sm text-muted-foreground">
+          No products need reordering.
+        </p>
+      </div>
     );
   }
 
