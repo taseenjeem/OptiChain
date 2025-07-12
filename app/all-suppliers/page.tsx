@@ -5,15 +5,6 @@ export default async function AllSupplierPage() {
   const initialSuppliers = await database.customers.findMany({
     take: 20,
     orderBy: { createdAt: "desc" },
-    select: {
-      id: true,
-      customer_id: true,
-      first_name: true,
-      last_name: true,
-      supplier_company: true,
-      phone: true,
-      email: true,
-    },
   });
 
   return (

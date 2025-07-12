@@ -8,19 +8,19 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get("page") || "1", 10);
 
-    const data = await database.customers.findMany({
+    const data = await database.products.findMany({
       skip: (page - 1) * PAGE_SIZE,
       take: PAGE_SIZE,
       orderBy: {
-        createdAt: "desc",
+        updatedAt: "desc",
       },
     });
 
     return NextResponse.json(data, { status: 200 });
   } catch (error) {
-    console.error("Error fetching suppliers:", error);
+    console.error("Error fetching products:", error);
     return NextResponse.json(
-      { error: "Failed to fetch suppliers data" },
+      { error: "Failed to fetch products data" },
       { status: 500 }
     );
   }
