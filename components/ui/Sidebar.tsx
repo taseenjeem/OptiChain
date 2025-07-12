@@ -19,11 +19,13 @@ import {
   LayoutDashboard,
   LogOut,
   Menu,
+  PackageSearch,
   SearchIcon,
   Settings,
   ShoppingCart,
   Sparkle,
   Truck,
+  Users,
 } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
@@ -36,6 +38,18 @@ const adminNav = [
     icon: <LayoutDashboard />,
     label: "Dashboard",
     link: "/dashboard",
+  },
+  {
+    id: "6",
+    icon: <PackageSearch />,
+    label: "All Products",
+    link: "/all-products",
+  },
+  {
+    id: "7",
+    icon: <Users />,
+    label: "All Suppliers",
+    link: "/all-suppliers",
   },
   { id: "1", icon: <Box />, label: "Inventory", link: "#" },
   { id: "2", icon: <ShoppingCart />, label: "Sales Orders", link: "#" },
