@@ -1,5 +1,7 @@
 import ProductTable from "@/components/pages/all-products-page/ProductTable";
-import database from "@/lib/db";
+import { PrismaClient } from "@/lib/generated/prisma";
+
+const database = new PrismaClient();
 
 export default async function AllProductsPage() {
   const initialProducts = await database.products.findMany({
