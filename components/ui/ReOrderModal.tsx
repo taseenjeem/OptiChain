@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface ReOrderModalProps {
   product: {
@@ -31,6 +32,7 @@ interface ReOrderModalProps {
 export function ReOrderModal(product: ReOrderModalProps) {
   const [addedStock, setAddedStock] = useState(0);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleStockUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,6 +49,7 @@ export function ReOrderModal(product: ReOrderModalProps) {
 
       if (res.ok) {
         toast.success("Stock updated successfully");
+        router.refresh();
       } else {
         toast.error("Failed to update stock");
         throw new Error("Failed to update stock");
