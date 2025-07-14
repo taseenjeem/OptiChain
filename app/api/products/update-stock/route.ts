@@ -14,7 +14,7 @@ export async function PATCH(req: Request) {
 
     await database.products.update({
       where: { id },
-      data: { stock: newStock, updatedAt: new Date() },
+      data: { stock: newStock },
     });
 
     return NextResponse.json({ message: "Stock updated successfully" });
