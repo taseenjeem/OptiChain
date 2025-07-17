@@ -2,7 +2,7 @@ import ProductTable from "@/components/pages/all-products-page/ProductTable";
 import database from "@/lib/db";
 import { PAGE_SIZE } from "@/lib/definitions";
 
-export const revalidate = 10;
+export const revalidate = 2;
 
 export default async function AllProductsPage() {
   const initialProducts = await database.products.findMany({
