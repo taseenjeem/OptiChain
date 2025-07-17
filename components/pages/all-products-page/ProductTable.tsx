@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -9,7 +9,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Loader2 } from "lucide-react";
 
 type Products = {
   id: string;
@@ -28,39 +27,7 @@ export default function ProductTable({
   initialData: Products[];
 }) {
   const [products, setProducts] = useState<Products[]>(initialData);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const observerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      async ([entry]) => {
-        if (entry.isIntersecting && !loading) {
-          setLoading(true);
-          try {
-            const res = await fetch(`/api/products/info?page=${page + 1}`);
-            const data: Products[] = await res.json();
-            if (data.length > 0) {
-              setProducts((prev) => [...prev, ...data]);
-              setPage((prev) => prev + 1);
-            }
-          } catch (error) {
-            console.error("Failed to load more products", error);
-          } finally {
-            setLoading(false);
-          }
-        }
-      },
-      { rootMargin: "200px" }
-    );
-
-    const current = observerRef.current;
-    if (current) observer.observe(current);
-
-    return () => {
-      if (current) observer.unobserve(current);
-    };
-  }, [page, loading]);
   return (
     <div className="rounded-md border overflow-auto">
       <Table>
@@ -87,12 +54,6 @@ export default function ProductTable({
           ))}
         </TableBody>
       </Table>
-
-      <div ref={observerRef} className="flex justify-center py-4">
-        {loading && (
-          <Loader2 className="animate-spin w-5 h-5 text-muted-foreground" />
-        )}
-      </div>
     </div>
   );
 }

@@ -3,7 +3,6 @@ import database from "@/lib/db";
 
 export default async function AllProductsPage() {
   const initialProducts = await database.products.findMany({
-    take: 20,
     orderBy: {
       updatedAt: "desc",
     },
