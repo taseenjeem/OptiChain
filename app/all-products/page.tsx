@@ -1,8 +1,12 @@
+// app/all-products/page.tsx
+
 import ProductTable from "@/components/pages/all-products-page/ProductTable";
 import database from "@/lib/db";
+import { PAGE_SIZE } from "@/lib/definitions";
 
 export default async function AllProductsPage() {
   const initialProducts = await database.products.findMany({
+    take: PAGE_SIZE, // Use the shared constant for the initial fetch
     orderBy: {
       updatedAt: "desc",
     },

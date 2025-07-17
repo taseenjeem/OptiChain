@@ -1,6 +1,8 @@
+// components/pages/all-products-page/ProductTable.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useTransition } from "react";
+import { useInView } from "react-intersection-observer";
 import {
   Table,
   TableBody,
@@ -9,24 +11,45 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-type Products = {
-  id: string;
-  name?: string | null;
-  price?: number | null;
-  currency?: string | null;
-  stock?: number | null;
-  order_status?: string | null;
-  order_date?: string | null;
-  updated_at?: Date | null;
-};
+import { Loader2Icon } from "lucide-react";
+import { getMoreProducts } from "@/actions/getProducts";
+import { PAGE_SIZE, Product } from "@/lib/definitions";
 
 export default function ProductTable({
   initialData,
 }: {
-  initialData: Products[];
+  initialData: Product[];
 }) {
-  const [products, setProducts] = useState<Products[]>(initialData);
+  const [products, setProducts] = useState<Product[]>(initialData);
+  const [offset, setOffset] = useState(initialData.length);
+  const [hasMore, setHasMore] = useState(initialData.length >= PAGE_SIZE);
+  const [isPending, startTransition] = useTransition();
+
+  // `ref` is a reference to the element that will trigger the infinite scroll
+  const { ref, inView } = useInView({ threshold: 0 });
+
+  const loadMoreProducts = () => {
+    // Don't fetch if a fetch is already pending or if there are no more items
+    if (isPending || !hasMore) return;
+
+    startTransition(async () => {
+      const newProducts = await getMoreProducts({ skip: offset });
+      if (newProducts.length > 0) {
+        setProducts((prev) => [...prev, ...newProducts]);
+        setOffset((prev) => prev + newProducts.length);
+      }
+      if (newProducts.length < PAGE_SIZE) {
+        setHasMore(false);
+      }
+    });
+  };
+
+  // When the trigger element (`ref`) is in view, load more products
+  useEffect(() => {
+    if (inView) {
+      loadMoreProducts();
+    }
+  }, [inView]);
 
   return (
     <div className="rounded-md border overflow-auto">
@@ -43,6 +66,7 @@ export default function ProductTable({
         </TableHeader>
         <TableBody>
           {products.map((p, index) => (
+            // IMPORTANT: Use the unique product ID as the key for performance and to avoid bugs
             <TableRow key={index}>
               <TableCell>{p.name}</TableCell>
               <TableCell>{p.price}</TableCell>
@@ -54,6 +78,14 @@ export default function ProductTable({
           ))}
         </TableBody>
       </Table>
+
+      {/* Trigger and Loader */}
+      <div ref={ref} className="flex justify-center items-center p-4">
+        {hasMore && isPending && <Loader2Icon className="animate-spin" />}
+        {!hasMore && (
+          <p className="text-sm text-gray-500">You've reached the end! 🎉</p>
+        )}
+      </div>
     </div>
   );
 }
