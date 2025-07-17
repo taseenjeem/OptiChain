@@ -1,4 +1,3 @@
-// components/pages/all-products-page/ProductTable.tsx
 "use client";
 
 import { useState, useEffect, useTransition } from "react";
@@ -25,11 +24,9 @@ export default function ProductTable({
   const [hasMore, setHasMore] = useState(initialData.length >= PAGE_SIZE);
   const [isPending, startTransition] = useTransition();
 
-  // `ref` is a reference to the element that will trigger the infinite scroll
   const { ref, inView } = useInView({ threshold: 0 });
 
   const loadMoreProducts = () => {
-    // Don't fetch if a fetch is already pending or if there are no more items
     if (isPending || !hasMore) return;
 
     startTransition(async () => {
@@ -44,7 +41,6 @@ export default function ProductTable({
     });
   };
 
-  // When the trigger element (`ref`) is in view, load more products
   useEffect(() => {
     if (inView) {
       loadMoreProducts();
@@ -66,7 +62,6 @@ export default function ProductTable({
         </TableHeader>
         <TableBody>
           {products.map((p, index) => (
-            // IMPORTANT: Use the unique product ID as the key for performance and to avoid bugs
             <TableRow key={index}>
               <TableCell>{p.name}</TableCell>
               <TableCell>{p.price}</TableCell>
